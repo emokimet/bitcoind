@@ -1,6 +1,0 @@
-flask
-flask_apscheduler
-prometheus-client
-uwsgi
-werkzeug
-requests

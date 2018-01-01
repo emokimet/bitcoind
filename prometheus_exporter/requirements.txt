@@ -1,6 +1,0 @@
-python-bitcoinrpc
-requests
-prometheus_client
-fastapi
-fastapi-utils
-typing-inspect
