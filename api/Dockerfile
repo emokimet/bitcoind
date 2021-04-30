@@ -1,7 +1,7 @@
-FROM python:3.8-alpine
+FROM python:3.8-slim
 
-RUN apk update
-RUN apk add python3-dev build-base linux-headers pcre-dev
+RUN apt-get update
+RUN apt-get install -y python3-dev build-essential
 
 RUN mkdir /code
 WORKDIR /code
