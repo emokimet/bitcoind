@@ -1,12 +1,11 @@
 TAG ?= latest
 IMAGE_NAME = boris/bitcoin-prometheus
 
-.PHONY: build build-arm push login
+.PHONY: build push
 
 build:
-	docker build -t $(IMAGE_NAME):$(TAG) -f Dockerfile .
-
-build-arm:
-	docker buildx build --platform linux/arm64 --load --pull \
+	docker buildx build --platform linux/amd64,linux/arm64 --load --pull \
 		-t $(IMAGE_NAME):$(TAG) -f Dockerfile .
 
+push:
+	docker push $(IMAGE_NAME):$(TAG)
