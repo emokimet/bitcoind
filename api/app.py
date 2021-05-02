@@ -27,7 +27,7 @@ def hello_world():
     latest_price = response['market_price_usd']
     price.set(latest_price)
 
-    trade_volume = Response['trade_volume_btc']
+    trade_volume = response['trade_volume_btc']
     volume.set(trade_volume)
 
     count.inc()
