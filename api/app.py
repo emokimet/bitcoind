@@ -1,7 +1,7 @@
 import requests
 import json
 import datetime
-from flask import Flask, Response
+from flask import Flask, Response, jsonify
 from flask_apscheduler import APScheduler
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
 from prometheus_client import make_wsgi_app, Counter, Gauge
@@ -11,24 +11,27 @@ app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {
     '/metrics': make_wsgi_app()
     })
 
-c = Counter('counter', 'Count of requests')
-g_block = Gauge('latest_block', 'Bitcoin latest block')
-g_price = Gauge('latest_price', 'Bitcoin latest price')
+count = Counter('counter', 'Count of requests')
+block = Gauge('latest_block', 'Bitcoin latest block')
+price = Gauge('latest_price', 'Bitcoin latest price')
+trade_volume = Gauge('trade_volume', 'Estimated transaction volume (BTC)')
 
 @app.route('/')
 def hello_world():
-    r = requests.get('https://blockchain.info/latestblock')
+    r = requests.get('https://api.blockchain.info/stats')
     response = r.json()
-    current_block = response['height']
-    g_block.set(current_block)
 
-    t = requests.get('https://blockchain.info/ticker')
-    tresponse = t.json()
-    ticker_usd = tresponse['USD']['last']
-    g_price.set(ticker_usd)
+    latest_block = response['n_blocks_total']
+    block.set(latest_block)
 
-    c.inc()
-    return Response(f"Latest block: {current_block} - Last price: {ticker_usd}", status=200)
+    latest_price = response['market_price_usd']
+    price.set(latest_price)
+
+    count.inc()
+
+    return jsonify(latest_block=f"{latest_block}",
+            latest_price=f"{latest_price}"
+            )
 
 if (__name__ == "__main__"):
     scheduler = APScheduler()
