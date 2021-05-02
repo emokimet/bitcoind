@@ -14,7 +14,7 @@ app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {
 count = Counter('counter', 'Count of requests')
 block = Gauge('latest_block', 'Bitcoin latest block')
 price = Gauge('latest_price', 'Bitcoin latest price')
-trade_volume = Gauge('trade_volume', 'Estimated transaction volume (BTC)')
+volume = Gauge('trade_volume', 'Estimated transaction volume (BTC)')
 
 @app.route('/')
 def hello_world():
@@ -27,10 +27,15 @@ def hello_world():
     latest_price = response['market_price_usd']
     price.set(latest_price)
 
+    trade_volume = Response['trade_volume_btc']
+    volume.set(trade_volume)
+
     count.inc()
 
-    return jsonify(latest_block=f"{latest_block}",
-            latest_price=f"{latest_price}"
+    with app.app_context():
+        return jsonify(latest_block=f"{latest_block}",
+            latest_price=f"{latest_price}",
+            trade_volume_btc=f"{trade_volume}"
             )
 
 if (__name__ == "__main__"):
