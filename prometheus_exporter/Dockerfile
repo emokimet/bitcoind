@@ -1,4 +1,4 @@
-FROM python:3.6.1-alpine
+FROM python:3.9.13-alpine
 RUN mkdir /code
 WORKDIR /code
 EXPOSE 8000
