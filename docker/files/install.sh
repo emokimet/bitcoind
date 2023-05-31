@@ -1,5 +1,10 @@
 #!/bin/bash
-VERSION=22.0
+if [[ -z "${VERSION}" ]]; then
+    echo "VERSION is not set"
+    exit 1
+else
+    VERSION=${VERSION}
+fi
 ARCH="x86_64"
 
 echo "Installing Bitcoind $VERSION"
