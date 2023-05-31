@@ -1,8 +1,10 @@
 .PHONY: build run stop check help
 .DEFAULT_GOAL := help
 
+export VERSION := $(VERSION)
+
 build: ## Build bitcoin image. The version is passed through the VERSION variable
-	docker build -t boris/bitcoin:$(VERSION) -f Dockerfile .
+	docker build --build-arg VERSION=$(VERSION) -t boris/bitcoin:$(VERSION) -f Dockerfile .
 
 run: ## Run the container exposing ports tcp:9332 and tcp:9333
 	docker run --name bitcoin-$(VERSION) -d -p 9332:9332 -p 9333:9333 boris/bitcoin:22.0
