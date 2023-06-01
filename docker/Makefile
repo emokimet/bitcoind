@@ -6,6 +6,9 @@ export VERSION := $(VERSION)
 build: ## Build bitcoin image. The version is passed through the VERSION variable
 	docker build --build-arg VERSION=$(VERSION) -t boris/bitcoin:$(VERSION) -f Dockerfile .
 
+push: ## Push a new version of the image to the registry
+	docker push boris/bitcoin:$(VERSION)
+
 run: ## Run the container exposing ports tcp:9332 and tcp:9333
 	docker run --name bitcoin-$(VERSION) -d -p 9332:9332 -p 9333:9333 boris/bitcoin:22.0
 
