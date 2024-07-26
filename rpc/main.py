@@ -1,8 +1,15 @@
 import auth
 import json
 
-rpc_connection = auth.BitcoinRPC(rpc_user='foo', rpc_password='bar')
-print(rpc_connection.getblockcount())
+# Catch the timeout exception
+try:
+    rpc_connection = auth.BitcoinRPC(rpc_user='satoshi', rpc_password='password')
+    print(rpc_connection.getblockcount())
 
-chaintips = json.dumps(rpc_connection.getchaintips(), indent=2)
-print(chaintips)
+    # Get the blockchain information
+    chaintips = json.dumps(rpc_connection.getchaintips(), indent=2)
+    print(chaintips)
+
+except Exception as e:
+    print(e)
+
