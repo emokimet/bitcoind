@@ -4,7 +4,7 @@ class BitcoinRPC():
     def __init__(self, rpc_user, rpc_password):
         self.rpc_user = rpc_user
         self.rpc_password = rpc_password
-        self.rpc_connection = AuthServiceProxy(f"http://{self.rpc_user}:{self.rpc_password}@127.0.0.1:8332",
+        self.rpc_connection = AuthServiceProxy(f"http://{self.rpc_user}:{self.rpc_password}@192.168.1.30:8332",
                                                timeout=10)
 
 
