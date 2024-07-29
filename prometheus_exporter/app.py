@@ -38,7 +38,7 @@ def read_root():
 
 
 @app.on_event("startup")
-@repeat_every(seconds=10)
+@repeat_every(seconds=60)
 @app.get("/metrics")
 def read_items():
     get_prices()
